@@ -1,0 +1,43 @@
+version: "3.8"
+
+services:
+  snapserver:
+    container_name: snapserver
+    depends_on:
+      - mopidy
+    image: chiefy/librespot-snapserver:0.26.0
+    volumes:
+      - "/share/homes/chief/Config/Snapcast/snapserver.conf:/etc/snapserver.conf"
+      - "snapfifo:/var/local/snap:ro"
+    environment:
+      DEVICE_NAME: Cygnus
+    network_mode: "host"
+    restart: always
+  mopidy:
+    image: chiefy/mopidy
+    container_name: mopidy
+    devices:
+      - "/dev/snd"
+    ports:
+      - "6600:6600"
+      - "6680:6680"
+    restart: always
+    volumes:
+      - "/share/homes/chief/Config/Mopidy/mopidy.conf:/config/mopidy.conf"
+      - "/share/homes/chief/Config/Mopidy/share:/usr/share/mopidy/local"
+      - "/share/CACHEDEV2_DATA/Music:/share/CACHEDEV2_DATA/Music"
+      - "snapfifo:/var/local/snap"
+  podgrab:
+    image: akhilrex/podgrab
+    container_name: podgrab
+    environment:
+      - CHECK_FREQUENCY=240
+    volumes:
+      - /share/homes/chief/Config/Podgrab:/config
+      - /share/Podcasts:/assets
+    ports:
+      - 8181:8080
+    restart: always
+
+volumes:
+  snapfifo:
