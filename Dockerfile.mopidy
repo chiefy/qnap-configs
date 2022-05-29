@@ -19,10 +19,12 @@ RUN apt update && \
     software-properties-common \
     apt-transport-https \
     curl \
-    sudo 
+    sudo \
+    git
 
-RUN curl -k "https://apt.mopidy.com/mopidy.gpg" | apt-key add - && \
-    curl -k "https://apt.mopidy.com/buster.list" > /etc/apt/sources.list.d/mopidy.list &&\
+RUN mkdir -p /usr/local/share/keyrings && \
+    curl -LSs -o /usr/local/share/keyrings/mopidy-archive-keyring.gpg https://apt.mopidy.com/mopidy.gpg && \
+    curl -LSs -o /etc/apt/sources.list.d/mopidy.list "https://apt.mopidy.com/buster.list" && \
     apt update && \
     apt install -y \
     mopidy \
@@ -30,18 +32,16 @@ RUN curl -k "https://apt.mopidy.com/mopidy.gpg" | apt-key add - && \
 
 RUN python3 -m pip install \
     Mopidy-Bandcamp \
-    Mopidy-Iris \
+    Mopidy-Iris==3.60.0 \
     Mopidy-Local \
     Mopidy-Local-Sqlite \
+    Mopidy-Muse \
     Mopidy-Mpd \
     Mopidy-Podcast \
-    Mopidy-Podcast-Itunes \
     Mopidy-Scrobbler \
     Mopidy-Somafm \
-    Mopidy-Soundcloud \
-    Mopidy-Tidal \
     Mopidy-Tunein \
-    Mopidy-Youtube 
+    git+https://github.com/mopidy/mopidy-api-explorer.git
 
 RUN mkdir -p /data/music /config /var/local/snap
 

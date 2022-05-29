@@ -4,7 +4,7 @@ DOCKER_TAG=latest
 
 .PHONY: build
 build:
-	@docker build -f Dockerfile.mopidy -t $(DOCKER_IMAGE):$(DOCKER_TAG) .
+	@docker build --no-cache -f Dockerfile.mopidy -t $(DOCKER_IMAGE):$(DOCKER_TAG) .
 
 .PHONY: push
 push:
