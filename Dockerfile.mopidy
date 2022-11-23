@@ -32,9 +32,8 @@ RUN mkdir -p /usr/local/share/keyrings && \
 
 RUN python3 -m pip install \
     Mopidy-Bandcamp \
-    Mopidy-Iris==3.60.0 \
+    Mopidy-Iris \
     Mopidy-Local \
-    Mopidy-Local-Sqlite \
     Mopidy-Muse \
     Mopidy-Mpd \
     Mopidy-Podcast \
