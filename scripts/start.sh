@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-conf=/config/mopidy.conf 
+conf=/config/mopidy.conf
 fifo=/var/local/snap/snapfifo
 
 rm -f ${fifo}

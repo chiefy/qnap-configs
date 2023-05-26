@@ -2,7 +2,8 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
 
 jobs:
 
@@ -11,6 +12,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+
     - uses: actions/checkout@v3
-    - name: Build the Docker image
-      run: make build
+
+    - name: Build and publish "latest" Docker image
+      uses: VaultVulp/gp-docker-action@1.6.0
+      with:
+        github-token: ${{ secrets.PAT_GHCR }}
+        image-name: mopidy
+        dockerfile: Dockerfile.mopidy
