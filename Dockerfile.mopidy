@@ -2,39 +2,39 @@ FROM debian:stable-slim
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-RUN apt update && \
-    apt upgrade -y && \
-    apt install -y \
-    python3 \
-    python3-pip \
-    python3-gst-1.0 \
-    gir1.2-gstreamer-1.0 \
-    gir1.2-gst-plugins-base-1.0 \
-    gstreamer1.0-plugins-good \
-    gstreamer1.0-plugins-bad \
-    gstreamer1.0-plugins-ugly \
-    gstreamer1.0-tools \    
-    gettext \
-    openssl \
-    software-properties-common \
-    apt-transport-https \
-    curl \
-    sudo \
-    git
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get install -y \
+        python3 \
+        python3-pip \
+        python3-gst-1.0 \
+        gir1.2-gstreamer-1.0 \
+        gir1.2-gst-plugins-base-1.0 \
+        gstreamer1.0-plugins-good \
+        gstreamer1.0-plugins-bad \
+        gstreamer1.0-plugins-ugly \
+        gstreamer1.0-tools \
+        gettext \
+        openssl \
+        software-properties-common \
+        apt-transport-https \
+        curl \
+        sudo \
+        git
 
-RUN mkdir -p /usr/local/share/keyrings && \
-    curl -LSs -o /usr/local/share/keyrings/mopidy-archive-keyring.gpg https://apt.mopidy.com/mopidy.gpg && \
-    curl -LSs -o /etc/apt/sources.list.d/mopidy.list "https://apt.mopidy.com/buster.list" && \
-    apt update && \
-    apt install -y \
-    mopidy \
-    mopidy-spotify
+RUN mkdir -p /etc/apt/keyrings && \
+    curl -LSs -o /etc/apt/keyrings/mopidy-archive-keyring.gpg "https://apt.mopidy.com/mopidy.gpg" && \
+    curl -LSs -o /etc/apt/sources.list.d/mopidy.list "https://apt.mopidy.com/bullseye.list" && \
+    apt-get update && \
+    apt-get install -y \
+        mopidy \
+        mopidy-spotify
 
-RUN python3 -m pip install \
+RUN python3 -m pip install --no-cache \
+    Mopidy-Mixcloud \
     Mopidy-Bandcamp \
     Mopidy-Iris \
     Mopidy-Local \
-    Mopidy-Muse \
     Mopidy-Mpd \
     Mopidy-Podcast \
     Mopidy-Scrobbler \
@@ -44,20 +44,20 @@ RUN python3 -m pip install \
 
 RUN mkdir -p /data/music /config /var/local/snap
 
-COPY ./scripts/start.sh /usr/local/bin/start.sh 
+COPY ./scripts/start.sh /usr/local/bin/start.sh
 
-RUN set -ex \
-    && usermod -G users,sudo mopidy \
-    && usermod -u 1000 mopidy \
-    && chown mopidy:users -R $HOME /config /usr/share/mopidy /var/local/snap \
-    && chmod go+rwx -R $HOME /config /usr/share/mopidy /var/local/snap \
-    && echo "1" >> /IS_CONTAINER \
-    && echo "mopidy ALL=NOPASSWD: /usr/local/lib/python3.9/dist-packages/mopidy_iris/system.sh" >> /etc/sudoers
+RUN set -ex && \
+    usermod -G users,sudo mopidy && \
+    usermod -u 1000 mopidy && \
+    chown mopidy:users -R $HOME /config /usr/share/mopidy /var/local/snap && \
+    chmod go+rwx -R $HOME /config /usr/share/mopidy /var/local/snap && \
+    echo "1" >>/IS_CONTAINER && \
+    echo "mopidy ALL=NOPASSWD: /usr/local/lib/python3.9/dist-packages/mopidy_iris/system.sh" >>/etc/sudoers
 
 # Runs as mopidy user by default.
 USER mopidy:audio
 
-VOLUME ["/var/lib/mopidy/local", "/config"]
+VOLUME [ "/var/lib/mopidy/local", "/config" ]
 
 EXPOSE 6680 6600
 
