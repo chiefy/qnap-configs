@@ -28,26 +28,25 @@ RUN mkdir -p /etc/apt/keyrings && \
     apt-get update && \
     apt-get install -y \
         mopidy \
-        mopidy-spotify
+        mopidy-spotify \
+        mopidy-local \
+        mopidy-podcast \
+        mopidy-somafm \
+        mopidy-soundcloud \
+        mopidy-tunein \
+        mopidy-scrobbler
 
-RUN python3 -m pip install --no-cache \
+RUN python3 -m pip install --no-cache --break-system-packages \
     Mopidy-Mixcloud \
     Mopidy-Bandcamp \
     Mopidy-Iris \
-    Mopidy-Local \
-    Mopidy-Mpd \
-    Mopidy-Podcast \
-    Mopidy-Scrobbler \
-    Mopidy-Somafm \
-    Mopidy-Tunein \
     git+https://github.com/mopidy/mopidy-api-explorer.git
 
 RUN mkdir -p /data/music /config /var/local/snap
 
 COPY ./scripts/start.sh /usr/local/bin/start.sh
 
-RUN set -ex && \
-    usermod -G users,sudo mopidy && \
+RUN usermod -G users,sudo mopidy && \
     usermod -u 1000 mopidy && \
     chown mopidy:users -R $HOME /config /usr/share/mopidy /var/local/snap && \
     chmod go+rwx -R $HOME /config /usr/share/mopidy /var/local/snap && \
