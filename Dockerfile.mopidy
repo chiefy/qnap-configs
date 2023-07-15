@@ -51,7 +51,7 @@ RUN usermod -G users,sudo mopidy && \
     chown mopidy:users -R $HOME /config /usr/share/mopidy /var/local/snap && \
     chmod go+rwx -R $HOME /config /usr/share/mopidy /var/local/snap && \
     echo "1" >>/IS_CONTAINER && \
-    echo "mopidy ALL=NOPASSWD: /usr/local/lib/python3.9/dist-packages/mopidy_iris/system.sh" >>/etc/sudoers
+    echo "mopidy ALL=NOPASSWD: /usr/local/lib/python3.11/dist-packages/mopidy_iris/system.sh" >>/etc/sudoers
 
 # Runs as mopidy user by default.
 USER mopidy:audio
