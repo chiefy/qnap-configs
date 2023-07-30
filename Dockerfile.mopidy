@@ -28,7 +28,6 @@ RUN mkdir -p /etc/apt/keyrings && \
     apt-get update && \
     apt-get install -y \
         mopidy \
-        mopidy-spotify \
         mopidy-local \
         mopidy-podcast \
         mopidy-somafm \
@@ -39,6 +38,7 @@ RUN mkdir -p /etc/apt/keyrings && \
 RUN python3 -m pip install --no-cache --break-system-packages \
     Mopidy-Mixcloud \
     Mopidy-Bandcamp \
+    Mopidy-Spotify \
     Mopidy-Iris \
     git+https://github.com/mopidy/mopidy-api-explorer.git
 
