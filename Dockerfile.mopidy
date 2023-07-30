@@ -27,6 +27,7 @@ RUN mkdir -p /etc/apt/keyrings && \
     curl -LSs -o /etc/apt/sources.list.d/mopidy.list "https://apt.mopidy.com/bullseye.list" && \
     apt-get update && \
     apt-get install -y \
+        libspotify-dev \
         mopidy \
         mopidy-local \
         mopidy-podcast \
@@ -36,6 +37,7 @@ RUN mkdir -p /etc/apt/keyrings && \
         mopidy-scrobbler
 
 RUN python3 -m pip install --no-cache --break-system-packages \
+    pyspotify \
     Mopidy-Mixcloud \
     Mopidy-Bandcamp \
     Mopidy-Spotify \
